@@ -1,12 +1,14 @@
 # / database loader - creates an sql database.
 # \
-# / version: 0.1
+# / version: 0.2
 # \ date: 2017.05.07
 # / initial: 2017.05.07
 # \ TODO:
-# / - delete, move, search functions
-# \ - visual browser
-# / - add items by typing them in
+# / - update, move, search functions
+# \ - make row return more visually appealing
+# / - visual browser
+# \ - add items by typing them in
+# / - bind gui buttons to item funcs
 # \
 # /
 
@@ -47,7 +49,7 @@ def insert(item,quantity,price): # ensure that you set the arguments
     conn.commit() # save those changes to the database
     conn.close() # close connection
 
-# ==== b e g i n   i n s e r t i o n  =========================
+# ==== t e s t   i n s e r t i o n  =========================
 
 # insert("Water glass",10,5)
 # will keep adding this item no matter what - not so good.
@@ -63,7 +65,9 @@ def view():
     conn.close()
     return rows # will print as a list
 
-# need a way to update/delete.
+def printResult():
+    print("after update: ")
+    print(view()) # check after update
 
 # ==== s e t   u p   d a t a   f u n c t i o n s  =========================
 
@@ -76,10 +80,35 @@ def delete(item):
     conn.commit()
     conn.close()
 
-def update(item):
+def update(quantity,price,item):
     conn=sqlite3.connect("lite.db")
     cur=conn.cursor()
-    cur.execute("UPDATE store SET quantity=?, price=?" )
+    cur.execute("UPDATE store SET quantity=?, price=? WHERE item=?",(quantity,price,item))
+    # update quant + price of an item matching "item"
+    # no comma at end is needed, because of multiple parameters
+    conn.commit()
+    conn.close()
 
+# ==== e n d   d a t a   f u n c t i o n s  ================================
+
+# ==== d e b u g   o p s ===================================================
 # delete("Water glass")  # removed every instance.
-print(view())
+
+# delete('Wine Glass')
+# delete('cup and saucer')
+# insert('cup and saucer', 300, 30.55)
+# --- trying to test an update and delete func set that didn't work.
+# ------ the problem: item name is case-sensitive.
+# ------ in future always specify using an ID number if possible
+# ------ other approach: case-insensitive func applied to each value.
+# ---------------------------------------------------------------------------
+
+# print("before update: ")
+# print(view()) # check before update
+
+# push an update
+update(11, 6.5, 'cup and saucer')
+
+# maybe functionalize the below:
+print("after update: ")
+print(view()) # check after update
