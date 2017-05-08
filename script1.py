@@ -110,5 +110,8 @@ def update(quantity,price,item):
 update(11, 6.5, 'cup and saucer')
 
 # maybe functionalize the below:
-print("after update: ")
-print(view()) # check after update
+    # print("after update: ")
+    # print(view()) # check after update
+    # done!
+
+printResult()
