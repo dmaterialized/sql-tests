@@ -1,4 +1,4 @@
-# / database loader - creates an sql database.
+# / database loader - creates an sqlite3 database.
 # \
 # / version: 0.2
 # \ date: 2017.05.07
