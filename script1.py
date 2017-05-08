@@ -2,7 +2,7 @@
 # \
 # / version: 0.1
 # \ date: 2017.05.07
-# / initial:
+# / initial: 2017.05.07
 # \ TODO: none
 # /
 # \
@@ -47,7 +47,7 @@ def insert(item,quantity,price): # ensure that you set the arguments
 # ==== b e g i n   i n s e r t i o n  =========================
 
 insert("Water glass",10,5)
-
+# will keep adding this item no matter what - not so good.
 
 # ==== s e t   u p   v i e w s  =========================
 
@@ -58,6 +58,8 @@ def view():
     cur.execute("SELECT * FROM store") # select all from store.
     rows=cur.fetchall() # store fetch in a variable called rows
     conn.close()
-    return rows
+    return rows # will print as a list
+
+# need a way to update/delete.
 
 print(view())
