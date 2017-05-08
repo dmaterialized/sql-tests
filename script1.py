@@ -3,10 +3,13 @@
 # / version: 0.1
 # \ date: 2017.05.07
 # / initial: 2017.05.07
-# \ TODO: none
-# /
+# \ TODO:
+# / - delete, move, search functions
+# \ - visual browser
+# / - add items by typing them in
 # \
 # /
+
 
 
 import sqlite3
