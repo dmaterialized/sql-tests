@@ -31,6 +31,21 @@ def create_table():
     conn.commit() # save those changes to the database
     conn.close() # close connection
 
+def insert(item,quantity,price): # ensure that you set the arguments here
+    conn=sqlite3.connect("lite.db")
+
+    # - create the cursor object -
+    cur=conn.cursor()
+    # insert some values (records) into the columns
+    # old version:
+    #cur.execute("INSERT INTO store VALUES ('Wine Glass',8,10.5)")
+    # always list in the same order that the columns were defined as.
+    # new version using variables "?":
+    # first list the ???, then, after the SQL code, identify variables
+    cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
+    conn.commit() # save those changes to the database
+    conn.close() # close connection
+
 # ==== t e s t   i n s e r t i o n  =========================
 
 # insert("Water glass",10,5)
@@ -53,21 +68,6 @@ def printResult():
 
 # ==== s e t   u p   d a t a   f u n c t i o n s  =========================
 # -------------------------------------------------------------------------
-def insert(item,quantity,price): # ensure that you set the arguments here
-    conn=sqlite3.connect("lite.db")
-    # - create the cursor object
-    cur=conn.cursor()
-    # insert some values (records) into the columns
-    # old version:
-    #cur.execute("INSERT INTO store VALUES ('Wine Glass',8,10.5)")
-    # always list in the same order that the columns were defined as.
-    # new version using variables "?":
-    # first list the ???, then, after the SQL code, identify variables
-    cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
-    conn.commit() # save those changes to the database
-    conn.close() # close connection
-
-
 def delete(item):
     conn=sqlite3.connect("lite.db")
     cur=conn.cursor()
@@ -88,6 +88,9 @@ def update(quantity,price,item):
 
 # ==== e n d   d a t a   f u n c t i o n s  ================================
 # -------------------------------------------------------------------------
+
+
+
 
 
 # -------------------------------------------------------------------------
@@ -122,7 +125,7 @@ def curateCollection():
     conn=sqlite3.connect("store")
     cur=conn.cursor()
     row=0
-
+    
     # iterate through the items in row i
     conn.commit()
     conn.close()
