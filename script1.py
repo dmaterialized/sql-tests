@@ -12,11 +12,9 @@
 # \
 # /
 
-
+# this version works 100%, in contrast to others. Use this as func template.
 
 import sqlite3
-
-# going to do this entire thing in a Create function.
 
 def create_table():
     # ====  i n i t    d a t a b a s e  =====================
@@ -24,7 +22,7 @@ def create_table():
     conn=sqlite3.connect("lite.db") # establish connection
 
     # - create the cursor object - this has been moved to the insert func
-    # cur=conn.cursor()
+    cur=conn.cursor()
     # create the table
     cur.execute("CREATE TABLE IF NOT EXISTS store (item TEXT, quantity INTEGER, price REAL)")
     # sql code goes in the brackets, always in quotes.
@@ -89,6 +87,13 @@ def update(quantity,price,item):
     conn.commit()
     conn.close()
 
+
+# ====
+# begin
+# -----
+
+create_table()
+
 # ==== e n d   d a t a   f u n c t i o n s  ================================
 
 # ==== d e b u g   o p s ===================================================
@@ -107,7 +112,8 @@ def update(quantity,price,item):
 # print(view()) # check before update
 
 # push an update
-update(11, 6.5, 'cup and saucer')
+insert(3,5,'icecream')
+update(11, 6.5, 'icecream')
 
 # maybe functionalize the below:
     # print("after update: ")

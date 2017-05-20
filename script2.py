@@ -11,14 +11,14 @@
 # / -
 
 
-import sqlite3
+import psycopg2
 
 # going to do this entire thing in a Create function.
 
 def create_table():
     # ====  i n i t    d a t a b a s e  =====================
     # - first create the database
-    conn=sqlite3.connect("lite.db") # establish connection
+    conn=psycopg2.connect("dbname='postgrestest' user='postgresql' password='sql72270' host='localhost'port='532'") # establish connection
 
     # - create the cursor object - this has been moved to the insert func
     # cur=conn.cursor()
@@ -39,7 +39,7 @@ def create_table():
 # ==== s e t   u p   v i e w s  =========================
 
 def view():
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("dbname='postgrestest' user='postgresql' password='sql72270' host='localhost'port='532'")
     # create the cursor
     cur=conn.cursor()
     cur.execute("SELECT * FROM store") # select all from store.
@@ -54,7 +54,7 @@ def printResult():
 # ==== s e t   u p   d a t a   f u n c t i o n s  =========================
 # -------------------------------------------------------------------------
 def insert(item,quantity,price): # ensure that you set the arguments here
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("lite.db")
     # - create the cursor object
     cur=conn.cursor()
     # insert some values (records) into the columns
@@ -67,9 +67,8 @@ def insert(item,quantity,price): # ensure that you set the arguments here
     conn.commit() # save those changes to the database
     conn.close() # close connection
 
-
 def delete(item):
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("lite.db")
     cur=conn.cursor()
     cur.execute("DELETE FROM store WHERE item=?", (item,))
     # that ending comma is very important!!
@@ -78,7 +77,7 @@ def delete(item):
     conn.close()
 
 def update(quantity,price,item):
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("lite.db")
     cur=conn.cursor()
     cur.execute("UPDATE store SET quantity=?, price=? WHERE item=?",(quantity,price,item))
     # update quant + price of an item matching "item"
@@ -119,7 +118,7 @@ printResult()
 
 def curateCollection():
     # curate is going to move items into ordered lists
-    conn=sqlite3.connect("store")
+    conn=psycopg2.connect("store")
     cur=conn.cursor()
     row=0
 

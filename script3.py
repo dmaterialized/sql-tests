@@ -11,14 +11,15 @@
 # / -
 
 
-import sqlite3
+import psycopg2
 
 # going to do this entire thing in a Create function.
 
 def create_table():
     # ====  i n i t    d a t a b a s e  =====================
     # - first create the database
-    conn=sqlite3.connect("lite.db") # establish connection
+    conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/' port='5432'")
+# establish connection
 
     # - create the cursor object - this has been moved to the insert func
     # cur=conn.cursor()
@@ -31,21 +32,6 @@ def create_table():
     conn.commit() # save those changes to the database
     conn.close() # close connection
 
-def insert(item,quantity,price): # ensure that you set the arguments here
-    conn=sqlite3.connect("lite.db")
-
-    # - create the cursor object -
-    cur=conn.cursor()
-    # insert some values (records) into the columns
-    # old version:
-    #cur.execute("INSERT INTO store VALUES ('Wine Glass',8,10.5)")
-    # always list in the same order that the columns were defined as.
-    # new version using variables "?":
-    # first list the ???, then, after the SQL code, identify variables
-    cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
-    conn.commit() # save those changes to the database
-    conn.close() # close connection
-
 # ==== t e s t   i n s e r t i o n  =========================
 
 # insert("Water glass",10,5)
@@ -54,7 +40,7 @@ def insert(item,quantity,price): # ensure that you set the arguments here
 # ==== s e t   u p   v i e w s  =========================
 
 def view():
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/'port='5432'")
     # create the cursor
     cur=conn.cursor()
     cur.execute("SELECT * FROM store") # select all from store.
@@ -68,8 +54,23 @@ def printResult():
 
 # ==== s e t   u p   d a t a   f u n c t i o n s  =========================
 # -------------------------------------------------------------------------
+def insert(item,quantity,price): # ensure that you set the arguments here
+    conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/'port='5432'")
+
+    # - create the cursor object
+    cur=conn.cursor()
+    # insert some values (records) into the columns
+    # old version:
+    #cur.execute("INSERT INTO store VALUES ('Wine Glass',8,10.5)")
+    # always list in the same order that the columns were defined as.
+    # new version using variables "?":
+    # first list the ???, then, after the SQL code, identify variables
+    cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
+    conn.commit() # save those changes to the database
+    conn.close() # close connection
+
 def delete(item):
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/'port='5432'")
     cur=conn.cursor()
     cur.execute("DELETE FROM store WHERE item=?", (item,))
     # that ending comma is very important!!
@@ -78,9 +79,9 @@ def delete(item):
     conn.close()
 
 def update(quantity,price,item):
-    conn=sqlite3.connect("lite.db")
+    conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/'port='5432'")
     cur=conn.cursor()
-    cur.execute("UPDATE store SET quantity=?, price=? WHERE item=?",(quantity,price,item))
+    cur.execute("UPDATE store SET quantity=? price=? WHERE item=?",(quantity,price,item))
     # update quant + price of an item matching "item"
     # no comma at end is needed, because of multiple parameters
     conn.commit()
@@ -90,22 +91,8 @@ def update(quantity,price,item):
 # -------------------------------------------------------------------------
 
 
-
-
-
 # -------------------------------------------------------------------------
 # ==== d e b u g   o p s ===================================================
-# delete("Water glass")  # removed every instance.
-
-# delete('Wine Glass')
-# delete('cup and saucer')
-# insert('cup and saucer', 300, 30.55)
-# --- trying to test an update and delete func set that didn't work.
-# ------ the problem: item name is case-sensitive.
-# ------ in future always specify using an ID number if possible
-# ------ other approach: case-insensitive func applied to each value.
-# ---------------------------------------------------------------------------
-
 # print("before update: ")
 # print(view()) # check before update
 # ==============================================
@@ -122,10 +109,11 @@ printResult()
 
 def curateCollection():
     # curate is going to move items into ordered lists
-    conn=sqlite3.connect("store")
+    conn=psycopg2.connect("store")
     cur=conn.cursor()
-    row=0
-    
+
     # iterate through the items in row i
     conn.commit()
     conn.close()
+
+create_table()
