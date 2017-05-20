@@ -11,7 +11,11 @@
 # / -
 
 
-import sqlite3, numpy
+import sqlite3, numpy, tkinter
+
+# --------------------------------
+# ----- TABLE FUNCS --------------
+# --------------------------------
 
 def create_table():
     conn=sqlite3.connect("agile.db")
@@ -59,3 +63,7 @@ add('an item', 'daily', 'na', 3)
 
 print("hello")
 print(view())
+
+# all tests successful.
+
+# GUI/text
