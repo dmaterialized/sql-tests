@@ -81,7 +81,7 @@ def delete(item):
 def update(quantity,price,item):
     conn=psycopg2.connect("dbname='postgrestest' user='postgres' password='sql72270' host='/tmp/'port='5432'")
     cur=conn.cursor()
-    cur.execute("UPDATE store SET quantity=? price=? WHERE item=?",(quantity,price,item))
+    cur.execute("UPDATE store SET quantity=?, price=? WHERE item=?", (quantity,price,item))
     # update quant + price of an item matching "item"
     # no comma at end is needed, because of multiple parameters
     conn.commit()
