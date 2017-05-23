@@ -18,7 +18,7 @@ import psycopg2
 def create_table():
     # ====  i n i t    d a t a b a s e  =====================
     # - first create the database
-    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='532'")
+    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='5432'")
     # establish connection
 
     # - create the cursor object - this has been moved to the insert func
@@ -40,7 +40,7 @@ def create_table():
 # ==== s e t   u p   v i e w s  =========================
 
 def view():
-    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost'port='532'")
+    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost'port='5432'")
     # create the cursor
     cur=conn.cursor()
     cur.execute("SELECT * FROM store") # select all from store.
@@ -89,7 +89,6 @@ def printResult():
 # ==== e n d   d a t a   f u n c t i o n s  ================================
 # -------------------------------------------------------------------------
 
-
 # -------------------------------------------------------------------------
 # ==== d e b u g   o p s ===================================================
 # delete("Water glass")  # removed every instance.
@@ -107,22 +106,22 @@ def printResult():
 # print(view()) # check before update
 # ==============================================
 
-# push an update
-update(11, 6.5, 'cup and saucer')
-update(22, 35.50, 'state of affairs')
-# maybe functionalize the below:
-    # print("after update: ")
-    # print(view()) # check after update
-    # done!
-
-printResult()
-
-def curateCollection():
-    # curate is going to move items into ordered lists
-    conn=psycopg2.connect("store")
-    cur=conn.cursor()
-    row=0
-
-    # iterate through the items in row i
-    conn.commit()
-    conn.close()
+# # push an update
+# update(11, 6.5, 'cup and saucer')
+# update(22, 35.50, 'state of affairs')
+# # maybe functionalize the below:
+#     # print("after update: ")
+#     # print(view()) # check after update
+#     # done!
+# #
+# printResult()
+#
+# def curateCollection():
+#     # curate is going to move items into ordered lists
+#     conn=psycopg2.connect("store")
+#     cur=conn.cursor()
+#     row=0
+#
+#     # iterate through the items in row i
+#     conn.commit()
+#     conn.close()
