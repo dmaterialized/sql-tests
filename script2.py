@@ -20,7 +20,6 @@ def create_table():
     # - first create the database
     conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='5432'")
     # establish connection
-
     # - create the cursor object - this has been moved to the insert func
     cur=conn.cursor()
     # create the table
@@ -38,49 +37,55 @@ def create_table():
 # will keep adding this item no matter what - not so good.
 
 # ==== s e t   u p   v i e w s  =========================
-
 def view():
-    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost'port='5432'")
-    # create the cursor
+    # TODO ISSUE: broken here.
+    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='5432'")
     cur=conn.cursor()
     cur.execute("SELECT * FROM store") # select all from store.
     rows=cur.fetchall() # store fetch in a variable called rows
     conn.close()
     return rows # will print as a list
 
+# functionalize the reprinting of the view
 def printResult():
     print("after update: ")
     print(view()) # check after update
 
 # ==== s e t   u p   d a t a   f u n c t i o n s  =========================
 # -------------------------------------------------------------------------
-# def insert(item,quantity,price): # ensure that you set the arguments here
-#     conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='532'")
-#     # - create the cursor object
-#     cur=conn.cursor()
-#     # insert some values (records) into the columns
-#     # old version:
-#     #cur.execute("INSERT INTO store VALUES ('Wine Glass',8,10.5)")
-#     # always list in the same order that the columns were defined as.
-#     # new version using variables "?":
-#     # first list the ???, then, after the SQL code, identify variables
-#     cur.execute("INSERT INTO store VALUES (?,?,?)",(item,quantity,price))
-#     conn.commit() # save those changes to the database
-#     conn.close() # close connection
+def insert(item,quantity,price): # ensure that you set the arguments here
+    conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
+    cur=conn.cursor()
+    # insert some values (records) into the columns
+    # always list in the same order that the columns were defined as.
+    # newest version (psycopg2) is using variables "$s":
+
+    # !!!! the below is NOT A GOOD METHOD(!!) because it's prone to SQL injection: !!!!
+    #cur.execute("INSERT INTO store VALUES ('%s','%s','%s')" % (item,quantity,price))
+
+    # the right way to do this is:
+    cur.execute("INSERT into store VALUES (%s,%s,%s,%s)", (item,quantity,price))
+    # the difference with this version is that the %s is not passed as a string, but instead expects an argument.
+
+    conn.commit() # save those changes to the database
+    conn.close() # close connection
+#
+
 #
 # def delete(item):
-#     conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='532'")
+#     conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
 #     cur=conn.cursor()
-#     cur.execute("DELETE FROM store WHERE item=?", (item,))
+#     cur.execute("DELETE FROM store WHERE item='%s'", (item,))
 #     # that ending comma is very important!!
 #     # does a straight text search, removes ALL instances.
 #     conn.commit()
 #     conn.close()
-#
+
+
 # def update(quantity,price,item):
-#     conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='532'")
+#     conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
 #     cur=conn.cursor()
-#     cur.execute("UPDATE store SET quantity=?, price=? WHERE item=?",(quantity,price,item))
+#     cur.execute("UPDATE store SET quantity='%s', price='%s' WHERE item='%s'",(quantity,price,item))
 #     # update quant + price of an item matching "item"
 #     # no comma at end is needed, because of multiple parameters
 #     conn.commit()
@@ -102,22 +107,25 @@ def printResult():
 # ------ other approach: case-insensitive func applied to each value.
 # ---------------------------------------------------------------------------
 
-# print("before update: ")
-# print(view()) # check before update
+print("before update: ")
+#print(view()) # check before update
 # ==============================================
 
-# # push an update
-# update(11, 6.5, 'cup and saucer')
-# update(22, 35.50, 'state of affairs')
-# # maybe functionalize the below:
-#     # print("after update: ")
-#     # print(view()) # check after update
-#     # done!
-# #
-# printResult()
-#
+# push an insert (not an update)
+insert(11, 6.5, 'cup and saucer')
+insert(22, 35.50, 'state of affairs')
+
+# maybe functionalize the below:
+print("after insert: ")
+print(view()) # check after update
+
+printResult()
+# done!
+
+
 # def curateCollection():
 #     # curate is going to move items into ordered lists
+#      TODO: if doing this, need to reconnect db properly.
 #     conn=psycopg2.connect("store")
 #     cur=conn.cursor()
 #     row=0
