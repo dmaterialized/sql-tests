@@ -18,7 +18,7 @@ import psycopg2
 def create_table():
     # ====  i n i t    d a t a b a s e  =====================
     # - first create the database
-    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='5432'")
+    conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
     # establish connection
     # - create the cursor object - this has been moved to the insert func
     cur=conn.cursor()
@@ -31,6 +31,10 @@ def create_table():
     conn.commit() # save those changes to the database
     conn.close() # close connection
 
+# execute the table because this has to occur first.
+create_table()
+
+
 # ==== t e s t   i n s e r t i o n  =========================
 
 # insert("Water glass",10,5)
@@ -39,7 +43,7 @@ def create_table():
 # ==== s e t   u p   v i e w s  =========================
 def view():
     # TODO ISSUE: broken here.
-    conn=psycopg2.connect("dbname='postgres' user='postgresql' password='sql72270' host='localhost' port='5432'")
+    conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
     cur=conn.cursor()
     cur.execute("SELECT * FROM store") # select all from store.
     rows=cur.fetchall() # store fetch in a variable called rows
@@ -64,7 +68,7 @@ def insert(item,quantity,price): # ensure that you set the arguments here
     #cur.execute("INSERT INTO store VALUES ('%s','%s','%s')" % (item,quantity,price))
 
     # the right way to do this is:
-    cur.execute("INSERT into store VALUES (%s,%s,%s,%s)", (item,quantity,price))
+    cur.execute("INSERT INTO store VALUES (%s,%s,%s)", (item,quantity,price))
     # the difference with this version is that the %s is not passed as a string, but instead expects an argument.
 
     conn.commit() # save those changes to the database
@@ -108,16 +112,16 @@ def insert(item,quantity,price): # ensure that you set the arguments here
 # ---------------------------------------------------------------------------
 
 print("before update: ")
-#print(view()) # check before update
+print(view()) # check before update
 # ==============================================
 
 # push an insert (not an update)
-insert(11, 6.5, 'cup and saucer')
-insert(22, 35.50, 'state of affairs')
+insert('cup and saucer', 11, 6.5)
+insert('state of affairs',22, 35.50)
 
 # maybe functionalize the below:
-print("after insert: ")
-print(view()) # check after update
+# print("after insert: ")
+# print(view()) # check after update
 
 printResult()
 # done!
