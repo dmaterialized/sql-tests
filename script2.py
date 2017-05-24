@@ -73,27 +73,27 @@ def insert(item,quantity,price): # ensure that you set the arguments here
 
     conn.commit() # save those changes to the database
     conn.close() # close connection
-#
-
-#
-# def delete(item):
-#     conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
-#     cur=conn.cursor()
-#     cur.execute("DELETE FROM store WHERE item='%s'", (item,))
-#     # that ending comma is very important!!
-#     # does a straight text search, removes ALL instances.
-#     conn.commit()
-#     conn.close()
 
 
-# def update(quantity,price,item):
-#     conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
-#     cur=conn.cursor()
-#     cur.execute("UPDATE store SET quantity='%s', price='%s' WHERE item='%s'",(quantity,price,item))
-#     # update quant + price of an item matching "item"
-#     # no comma at end is needed, because of multiple parameters
-#     conn.commit()
-#     conn.close()
+
+def delete(item):
+     conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
+     cur=conn.cursor()
+     cur.execute("DELETE FROM store WHERE item='%s'", (item,))
+     # that ending comma is very important!!
+     # does a straight text search, removes ALL instances.
+     conn.commit()
+     conn.close()
+
+
+def update(quantity,price,item):
+    conn=psycopg2.connect("dbname='postgres' user='postgres' password='sql72270' host='localhost' port='5432'")
+    cur=conn.cursor()
+    cur.execute("UPDATE store SET quantity='%s', price='%s' WHERE item='%s'",(quantity,price,item))
+    # update quant + price of an item matching "item"
+    # no comma at end is needed, because of multiple parameters
+    conn.commit()
+    conn.close()
 
 # ==== e n d   d a t a   f u n c t i o n s  ================================
 # -------------------------------------------------------------------------
